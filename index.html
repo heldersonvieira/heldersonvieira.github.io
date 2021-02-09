@@ -19,20 +19,23 @@
         <section class="actions">
             <h2>Crie sua lista de tarefas</h2>
             <div class="input-group">
-                <label class="sr-only" for="description">Descrição da lista</label>
-                <input type="text" id="description" class="default-input" name="description" placeholder="Descrição da lista">
+                <label class="sr-only" for="list-description">Descrição da lista</label>
+                <input type="text" id="list-description" class="default-input" name="list-description" placeholder="Descrição da lista">
                 <small>Digite o nome da lista e click em "+ Nova lista" ou pressiona a tecla "ENTER"</small>
-                <a href="#">+ Nova lista</a>
+                <a href="#" onclick="List.add()">+ Nova lista</a>
             </div>
         </section>
 
-        <section class="list">
+        <!-- <section class="tasks">
             <h2>Compras</h2>
             <div class="task-description">
                 <label class="sr-only" for="task-description">Descrição da tarefa</label>
                 <input type="text" id="task-description" class="default-input" name="task-description" placeholder="Descrição da tarefa">
-                <small>Digite o nome da lista acima e pressione a tecla "ENTER"</small>
+                <span>
+                    <img onclick="Tasks.add()" src="./assets/plus.svg" alt="Adicionar tarefa" class="add-task button">
+                </span>
             </div>
+            <small>Digite o nome da tarefa e clique no botão ao lado ou pressione a tecla "ENTER"</small>
 
             <table class="tasks-table">
                 <thead>
@@ -75,12 +78,14 @@
                 </tbody>
             </table>
 
-        </section>
+        </section> -->
     </main>
 
     <footer>
         <h2>tasks to do</h2>
     </footer>
 </body>
+
+<script src="./scripts.js"></script>
 
 </html>
