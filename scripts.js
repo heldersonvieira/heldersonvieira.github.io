@@ -53,6 +53,26 @@ const Utils = {
         let valid = description === '' ? false : true
         
         return valid;
+    },
+
+    targets: document.querySelectorAll('tr'),
+
+    remove(event) {
+        const trs = document.querySelectorAll('tr');
+        trs.forEach(tr => {
+            tr.addEventListener('click', function(event) {
+                const firstTarget = event.target.parentNode;
+                const mainTarget = firstTarget.parentNode;
+                console.log(mainTarget.tagName);
+                console.log(firstTarget.tagName);
+                if (
+                    firstTarget.tagName == 'TD' &&
+                    mainTarget.tagName == 'TR'
+                    ) {
+                    mainTarget.parentNode.removeChild(mainTarget);
+                }
+            })
+        })
     }
     
 }
@@ -84,16 +104,24 @@ const Tasks = {
         Tasks.all.push(task)
 
         const table = document.querySelector('table');
-        table.classList.remove('invisible');
-
         const tbody = document.createElement('tbody');
         const tr = document.createElement('tr');
         tr.innerHTML = Tasks.innerHTMLTask(task.description);
+
+        if (!table) {
+            return;
+        }
         
+        table.classList.remove('invisible');
         table.appendChild(tbody);
         tbody.appendChild(tr);
-
+               
         return table;
+    },
+
+    clearTable() {
+        const table = document.querySelector('table');
+        table.innerHTML = '';
     },
 
     innerHTMLTask(task) {
@@ -102,7 +130,7 @@ const Tasks = {
         <td>${task}</td>
         <td><input type="checkbox"></td>
         <td>
-            <img src="./assets/minus.svg" alt="">
+            <img onclick="Utils.remove()" src="./assets/minus.svg" alt="">
         </td>
         </tr>
        `
@@ -112,10 +140,15 @@ const Tasks = {
 
 // const App = {
 //     init() {
-//         Tasks.all.forEach(task => {
-//             Tasks.add(task);
+//         Tasks.all.forEach((task) => {
+//             Tasks.add(task)
 //         })
+//     },
+
+//     reload() {
+//         Tasks.clearTable();
+//         App.init();
 //     }
 // }
 
-// App.init();
+// App.init()
