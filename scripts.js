@@ -19,6 +19,9 @@ const List = {
         section.innerHTML = List.innerHTMLList(List.get().description); 
 
         List.container.appendChild(section);
+        
+        List.description = '';
+        Listener.input();
     },
 
     innerHTMLList(description) {
@@ -29,20 +32,20 @@ const List = {
                 <label class="sr-only" for="task-description">Descrição da tarefa</label>
                 <input type="text" id="task-description" class="default-input" name="task-description" placeholder="Descrição da tarefa">
                 <span>
-                    <img onclick="Tasks.get()" src="./assets/plus.svg" alt="Adicionar tarefa" class="add-task button">
+                    <img onclick="Tasks.add()" src="./assets/plus.svg" alt="Adicionar tarefa" class="add-task button">
                 </span>
             </div>
             <small>Digite o nome da tarefa e clique no botão ao lado ou pressione a tecla "ENTER"</small>
             <table class="tasks-table invisible">
-            <thead>
-                <tr>
-                    <th>Descrição</th>
-                    <th>Status</th>
-                    <th></th>
-                </tr>
-            </thead>
+                <thead>
+                    <tr>
+                        <th>Descrição</th>
+                        <th>Status</th>
+                        <th></th>
+                    </tr>
+                </thead>
+            </table> 
         <section class="tasks">`
-            
         
         return html;
     }
@@ -66,88 +69,97 @@ const Utils = {
                 console.log(mainTarget.tagName);
                 console.log(firstTarget.tagName);
                 if (
+                    event.target.tagName == 'IMG' &&
                     firstTarget.tagName == 'TD' &&
                     mainTarget.tagName == 'TR'
                     ) {
                     mainTarget.parentNode.removeChild(mainTarget);
+                    return;
                 }
             })
+
         })
-    }
-    
+    }  
 }
 
 const Tasks = {
     all: [
-        {description: 'Mochila'},
-        {description: 'Fones de ouvido'},
-        {description: 'Sapato'},
-        {description: 'Livros'}
+
     ],    
     
-    get() {
-        const description = document.querySelector('input#task-description');
+    tbody: document.querySelector('tbody'),
+    description: document.getElementsByName('task-description'),
 
-        return Tasks.add({
-            description: description.value
-        })
-        // return {
-        //     description: description.value
-        // };
+    get() {
+        return {
+            description: Tasks.description.value,
+        };
     },
     
-    add(task) {
-        if (!Utils.validateFields(task.description)) {
-           return alert('Digite a descrição corretamente');
-        }
-
-        Tasks.all.push(task)
-
-        const table = document.querySelector('table');
-        const tbody = document.createElement('tbody');
-        const tr = document.createElement('tr');
-        tr.innerHTML = Tasks.innerHTMLTask(task.description);
-
-        if (!table) {
-            return;
-        }
+    add() {
+        // Tasks.all.push(Tasks.get());
+        // let description = Tasks.get().description;
+        // let index = Tasks.all.length - 1;
         
-        table.classList.remove('invisible');
-        table.appendChild(tbody);
-        tbody.appendChild(tr);
-               
-        return table;
+        // const tr = document.createElement('tr');
+        // tr.innerHTML = Tasks.innerHTMLTask(description, index);
+        
+        // Tasks.tbody.appendChild(tr);
+
+        // console.log(Tasks.get().description, Tasks.all.length - 1);
+        // console.log(Tasks.all);
+        let nome = Tasks.description.entries
+        console.log(nome);
     },
 
-    clearTable() {
-        const table = document.querySelector('table');
-        table.innerHTML = '';
-    },
-
-    innerHTMLTask(task) {
+    innerHTMLTask(description, index) {
         const html = `
-        <tr>
-        <td>${task}</td>
+        <td>${description}</td>
         <td><input type="checkbox"></td>
         <td>
-            <img onclick="Utils.remove()" src="./assets/minus.svg" alt="">
+            <img onclick="Utils.remove(${index})" src="./assets/minus.svg" alt="">
         </td>
-        </tr>
        `
         return html;
     }
 }
 
+const Listener = {
+    input() {
+        const inputs = document.querySelectorAll('input');
+        inputs.forEach(input => {
+            input.addEventListener('keypress', function(event) {
+                if (event.keyCode === 13) {
+                    if (event.target.id === 'list-description') {
+                        List.add();
+                    }
+                    
+                    if (event.target.id === 'task-description') {
+                        Tasks.add();
+                    }
+                }
+
+                // if (event.target.id == 'list-description') {
+                //     List.add();
+                // }
+                // if (event.target.id == 'task-description') {
+                //     Tasks.add(Tasks.get().description);
+                // }
+            })
+        })
+    
+    }
+}
+
 // const App = {
 //     init() {
-//         Tasks.all.forEach((task) => {
-//             Tasks.add(task)
+//         Tasks.all.forEach((task, index) => {
+//             Tasks.add(task, index)
 //         })
 //     },
 
 //     reload() {
-//         Tasks.clearTable();
-//         App.init();
+
 //     }
 // }
 
