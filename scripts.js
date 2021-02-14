@@ -16,21 +16,24 @@ const List = {
 
         const section = document.createElement('section');
         section.classList.add('tasks');
+         
         section.innerHTML = List.innerHTMLList(List.get().description); 
-
+        
         List.container.appendChild(section);
         
-        List.description = '';
-        Listener.input();
+        List.description.value = '';
+        Listener.init();
     },
 
     innerHTMLList(description) {
         const html = `
-        <section class="tasks">
-            <h2>${description}</h2>
+            <h2>
+                ${description}
+                <img onclick="Utils.removeAll()" src="./assets/minus.svg" alt="Remover lista">
+            </h2>
             <div class="task-description">
                 <label class="sr-only" for="task-description">Descrição da tarefa</label>
-                <input type="text" id="task-description" class="default-input" name="task-description" placeholder="Descrição da tarefa">
+                <input type="text" id="task-description" class="default-input" name="task-description" placeholder="Descrição da tarefa" autofocus>
                 <span>
                     <img onclick="Tasks.add()" src="./assets/plus.svg" alt="Adicionar tarefa" class="add-task button">
                 </span>
@@ -44,9 +47,9 @@ const List = {
                         <th></th>
                     </tr>
                 </thead>
-            </table> 
-        <section class="tasks">`
-        
+                <tbody></tbody>
+            </table>`
+
         return html;
     }
 }
@@ -58,28 +61,35 @@ const Utils = {
         return valid;
     },
 
-    targets: document.querySelectorAll('tr'),
+    remove(index) {
+        Tasks.all.splice(index, 1);
+        const table = document.querySelector('.tasks-table');
+        const tbody = document.querySelector('tbody');
+        tbody.addEventListener('click', function(event) {
+            const firstTarget = event.target.parentNode;
+            const mainTarget = firstTarget.parentNode;
 
-    remove(event) {
-        const trs = document.querySelectorAll('tr');
-        trs.forEach(tr => {
-            tr.addEventListener('click', function(event) {
-                const firstTarget = event.target.parentNode;
-                const mainTarget = firstTarget.parentNode;
-                console.log(mainTarget.tagName);
-                console.log(firstTarget.tagName);
-                if (
-                    event.target.tagName == 'IMG' &&
-                    firstTarget.tagName == 'TD' &&
-                    mainTarget.tagName == 'TR'
-                    ) {
-                    mainTarget.parentNode.removeChild(mainTarget);
-                    return;
-                }
-            })
+            if (firstTarget.tagName === 'TD' && 
+                mainTarget.tagName === 'TR') {
+                mainTarget.remove(firstTarget);
+            }
 
+            if (tbody.innerHTML === '') {
+                table.classList.add('invisible');
+            }
         })
-    }  
+
+    },
+
+    removeAll() {
+        const section = document.querySelector('.tasks');
+        section.remove(section);
+    },
+
+    clear() {
+        const table = document.querySelector('.tasks-table');
+        table.innerHTML = '';
+    }
 }
 
 const Tasks = {
@@ -87,37 +97,36 @@ const Tasks = {
 
     ],    
     
-    tbody: document.querySelector('tbody'),
-    description: document.getElementsByName('task-description'),
-
     get() {
+        const description = document.querySelector('#task-description');
+
         return {
-            description: Tasks.description.value,
+            description: description.value,
         };
     },
-    
-    add() {
-        // Tasks.all.push(Tasks.get());
-        // let description = Tasks.get().description;
-        // let index = Tasks.all.length - 1;
-        
-        // const tr = document.createElement('tr');
-        // tr.innerHTML = Tasks.innerHTMLTask(description, index);
-        
-        // Tasks.tbody.appendChild(tr);
 
-        // console.log(Tasks.get().description, Tasks.all.length - 1);
-        // console.log(Tasks.all);
-        let nome = Tasks.description.entries
-        console.log(nome);
+    add(description, index) {
+        Tasks.all.push(Tasks.get());
+
+        description = Tasks.get().description;
+        index = Tasks.all.length - 1;
+
+        const table = document.querySelector('.tasks-table');
+        const tbody = document.querySelector('tbody');
+        const tr = document.createElement('tr');
+        tr.innerHTML = Tasks.innerHTMLTask(description, index);
+                
+        table.classList.remove('invisible');
+        tbody.appendChild(tr);
+        document.querySelector('#task-description').value = '';
     },
-
+    
     innerHTMLTask(description, index) {
         const html = `
         <td>${description}</td>
         <td><input type="checkbox"></td>
         <td>
-            <img onclick="Utils.remove(${index})" src="./assets/minus.svg" alt="">
+            <img onclick="Utils.remove(${index})" src="./assets/minus.svg" alt="Remover tarefa">
         </td>
        `
         return html;
@@ -125,7 +134,7 @@ const Tasks = {
 }
 
 const Listener = {
-    input() {
+    init() {
         const inputs = document.querySelectorAll('input');
         inputs.forEach(input => {
             input.addEventListener('keypress', function(event) {
@@ -138,29 +147,9 @@ const Listener = {
                         Tasks.add();
                     }
                 }
-
-                // if (event.target.id == 'list-description') {
-                //     List.add();
-                // }
-                // if (event.target.id == 'task-description') {
-                //     Tasks.add(Tasks.get().description);
-                // }
             })
         })
-    
     }
 }
 
-// const App = {
-//     init() {
-//         Tasks.all.forEach((task, index) => {
-//             Tasks.add(task, index)
-//         })
-//     },
-
-//     reload() {
-
-//     }
-// }
-
-// App.init()
+Listener.init()

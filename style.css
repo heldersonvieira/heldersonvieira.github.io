@@ -38,6 +38,9 @@ header {
 }
 
 h2 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     font-weight: 500;
     padding: 0.5rem 0 1rem;
 }
@@ -159,9 +162,13 @@ footer {
     font-size: 0.6rem;
     font-weight: 100;
     letter-spacing: 0.1rem;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
+
+/* responsive ========================== */
 @media (min-width: 800px) {
     html {
         font-display: 87.5%;
