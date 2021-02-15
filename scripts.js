@@ -9,8 +9,8 @@ const List = {
     },
 
     add() {
-        if (!Utils.validateFields(List.get().description)) {
-            alert('Digite a descrição corretamente');
+        if (List.description.value.length <= 0) {
+            alert('Digite a dscrição corretamente')
             return;
         }
 
@@ -55,12 +55,6 @@ const List = {
 }
 
 const Utils = {    
-    validateFields(description) {
-        let valid = description === '' ? false : true
-        
-        return valid;
-    },
-
     remove(index) {
         Tasks.all.splice(index, 1);
         const table = document.querySelector('.tasks-table');
@@ -108,6 +102,11 @@ const Tasks = {
     add(description, index) {
         Tasks.all.push(Tasks.get());
 
+        if (document.querySelector('#task-description').value.length <= 0) {
+            alert('Digite a dscrição corretamente')
+            return;
+        }
+
         description = Tasks.get().description;
         index = Tasks.all.length - 1;
 
@@ -119,12 +118,13 @@ const Tasks = {
         table.classList.remove('invisible');
         tbody.appendChild(tr);
         document.querySelector('#task-description').value = '';
+        Listener.checking();
     },
     
     innerHTMLTask(description, index) {
         const html = `
         <td>${description}</td>
-        <td><input type="checkbox"></td>
+        <td><input class="input-check" type="checkbox"></td>
         <td>
             <img onclick="Utils.remove(${index})" src="./assets/minus.svg" alt="Remover tarefa">
         </td>
@@ -135,6 +135,7 @@ const Tasks = {
 
 const Listener = {
     init() {
+        // escutando inputs
         const inputs = document.querySelectorAll('input');
         inputs.forEach(input => {
             input.addEventListener('keypress', function(event) {
@@ -148,6 +149,24 @@ const Listener = {
                     }
                 }
             })
+        })
+
+        
+    }, 
+
+    checking() {
+        // escutando checkbo
+        const table = document.querySelector('table');
+        table.addEventListener('click', function(event) {
+            const isBoxes = event.target.classList == 'input-check';
+            if (isBoxes) {
+                const boxes = document.querySelectorAll('.input-check');
+                boxes.forEach(box => {
+                    if (box.checking) {
+                        console.log('oi');
+                    }
+                }) 
+            }
         })
     }
 }
