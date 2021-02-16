@@ -8,6 +8,7 @@
     --light-blue: #85c3ff;
     --baby-blue: #d2f6fc;
     --gray: #f0f2f5;
+    --dark-mode: #615d5d;
 }
 
 html {
@@ -36,6 +37,12 @@ header {
     font-weight: 900;
     letter-spacing: 0.2rem;
 }
+
+header div {
+    width: min(80vw, 700px);
+    margin: auto;
+}
+
 
 h2 {
     display: flex;
@@ -113,6 +120,66 @@ main.container {
     margin: auto;
 }
 
+.switch {
+    position: absolute;
+    margin-right: -9999px;
+    visibility: hidden;
+}
+
+.switch + label {
+    display: block;
+    position: relative;
+    cursor: pointer;
+    outline: none;
+    user-select: none;
+}
+
+.switch--shadow + label {
+    padding: 2px;
+    width: 60px;
+    height: 30px;
+    background-color: #dddddd;
+    border-radius: 60px;
+}
+
+.switch--shadow + label:before,
+.switch--shadow + label:after {
+    display: block;
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    bottom: 1px;
+    content: '';
+}
+.switch--shadow + label:before {
+    right: 1px;
+    background-color: #f1f1f1;
+    border-radius: 60px;
+    transition: all 0.4s;
+}
+.switch--shadow + label:after {
+    width: 30px;
+    background-color: #fff;
+    border-radius: 100%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    transition: all 0.4s;
+}
+
+.switch--shadow:checked + label:before {
+    background-color: #bbbbbb;
+}
+
+  .switch--shadow:checked + label:after {
+    transform: translateX(30px);
+}
+
+/* dark mode ========================== */
+
+.dark {
+    background: var(--dark-mode);
+    color: white;
+}
+
 /* actions list ========================== */
 section.actions {
     height: 200px;
@@ -153,6 +220,10 @@ img {
     width: 1.5rem;
     cursor: pointer;
     margin-left: 1rem;
+}
+
+.checked {
+    text-decoration: line-through;
 }
 
 

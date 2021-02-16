@@ -9,20 +9,24 @@ const List = {
     },
 
     add() {
-        if (List.description.value.length <= 0) {
-            alert('Digite a dscrição corretamente')
-            return;
+        if (!Listener.createdList) {
+            if (List.description.value.length <= 0) {
+                alert('Digite a dscrição corretamente')
+                return;
+            }
+    
+            const section = document.createElement('section');
+            section.classList.add('tasks');
+             
+            section.innerHTML = List.innerHTMLList(List.get().description); 
+            
+            List.container.appendChild(section);
+            
+            List.description.value = '';
+            Listener.init();    // para escutar o input seguinte, com a descrição da tarefa
         }
 
-        const section = document.createElement('section');
-        section.classList.add('tasks');
-         
-        section.innerHTML = List.innerHTMLList(List.get().description); 
-        
-        List.container.appendChild(section);
-        
-        List.description.value = '';
-        Listener.init();
+        return Listener.createdList = true;
     },
 
     innerHTMLList(description) {
@@ -78,12 +82,9 @@ const Utils = {
     removeAll() {
         const section = document.querySelector('.tasks');
         section.remove(section);
-    },
 
-    clear() {
-        const table = document.querySelector('.tasks-table');
-        table.innerHTML = '';
-    }
+        return Listener.createdList = false;
+    },
 }
 
 const Tasks = {
@@ -123,7 +124,7 @@ const Tasks = {
     
     innerHTMLTask(description, index) {
         const html = `
-        <td>${description}</td>
+        <td class="description-task">${description}</td>
         <td><input class="input-check" type="checkbox"></td>
         <td>
             <img onclick="Utils.remove(${index})" src="./assets/minus.svg" alt="Remover tarefa">
@@ -134,6 +135,8 @@ const Tasks = {
 }
 
 const Listener = {
+    createdList: false,
+
     init() {
         // escutando inputs
         const inputs = document.querySelectorAll('input');
@@ -162,8 +165,12 @@ const Listener = {
             if (isBoxes) {
                 const boxes = document.querySelectorAll('.input-check');
                 boxes.forEach(box => {
-                    if (box.checking) {
-                        console.log('oi');
+                    const td = box.parentNode;
+                    const tr = td.parentNode;
+                    if (box.checked) {
+                        tr.classList.add('checked');                      
+                    } else {
+                        tr.classList.remove('checked');
                     }
                 }) 
             }
@@ -172,3 +179,16 @@ const Listener = {
 }
 
 Listener.init()
+
+// const sw = document.querySelector('.switch')
+// const body = document.querySelector('body');
+// const sections = document.querySelectorAll('section');
+// sw.addEventListener('click', function() {
+    
+//     if (sw.checked) {
+//         body.classList.add('dark');
+//         sections.forEach(section => {
+//             section.classList.add('dark');
+//         })
+//     }
+// })
