@@ -1,14 +1,15 @@
 /* global ========================== */
 :root {
-    --dark: #223333;
-    --dark-blue:#132743;
     --purple-blue: #6730ec;
     --gray-blue: #7984ee;
     --blue: #0085ff;
     --light-blue: #85c3ff;
     --baby-blue: #d2f6fc;
     --gray: #f0f2f5;
-    --dark-mode: #615d5d;
+    --body-bg: #fafafa;
+    --dark: #223333;
+    --dark-blue:#132743;
+    --dark-body: #555;
 }
 
 html {
@@ -170,14 +171,17 @@ main.container {
 }
 
   .switch--shadow:checked + label:after {
-    transform: translateX(30px);
+    transform: translateX(28px);
 }
 
 /* dark mode ========================== */
 
-.dark {
-    background: var(--dark-mode);
-    color: white;
+.dark-body {
+    background: rgb(51, 50, 50);
+}
+
+.dark-header {
+    background: rgb(37, 37, 37);
 }
 
 /* actions list ========================== */
@@ -237,7 +241,6 @@ footer {
     align-items: center;
     justify-content: center;
 }
-
 
 /* responsive ========================== */
 @media (min-width: 800px) {

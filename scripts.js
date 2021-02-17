@@ -24,6 +24,7 @@ const List = {
             
             List.description.value = '';
             Listener.init();    // para escutar o input seguinte, com a descrição da tarefa
+            Listener.changeTheme();
         }
 
         return Listener.createdList = true;
@@ -175,20 +176,23 @@ const Listener = {
                 }) 
             }
         })
+    },
+
+    changeTheme() {
+        const darkSwitch = document.querySelector('.switch');
+
+        darkSwitch.addEventListener('click', function() {
+            
+            if (darkSwitch.checked) {
+                document.querySelector('body').classList.add('dark-body');
+                document.querySelector('header').classList.add('dark-header');
+            } else {
+                document.querySelector('body').classList.remove('dark-body');
+                document.querySelector('header').classList.remove('dark-header');
+            }
+        })
     }
 }
 
-Listener.init()
-
-// const sw = document.querySelector('.switch')
-// const body = document.querySelector('body');
-// const sections = document.querySelectorAll('section');
-// sw.addEventListener('click', function() {
-    
-//     if (sw.checked) {
-//         body.classList.add('dark');
-//         sections.forEach(section => {
-//             section.classList.add('dark');
-//         })
-//     }
-// })
+Listener.init();
+Listener.changeTheme();
