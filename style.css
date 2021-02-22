@@ -7,8 +7,9 @@
     --baby-blue: #d2f6fc;
     --gray: #f0f2f5;
     --body-bg: #fafafa;
-    --dark: #223333;
+    --dark: #222b33;
     --dark-blue:#132743;
+    --dark-blue2: #2a3742;
     --dark-body: #555;
 }
 
@@ -26,6 +27,7 @@ body {
     background: var(--gray);
     font-family: 'Poppins', sans-serif;
     color: var(--dark-blue);
+    transition: all 0.5s ease;
 }
 
 header {
@@ -37,6 +39,7 @@ header {
     font-size: 1rem;
     font-weight: 900;
     letter-spacing: 0.2rem;
+    transition: all 0.5s ease;
 }
 
 header div {
@@ -77,7 +80,22 @@ small {
 }
 
 .invisible {
-    display: none;
+    opacity: 0;
+}
+
+/* dark mode ========================== */
+
+.dark-header {
+    background: var(--dark);
+    color: var(--baby-blue);
+}
+
+.dark-body {
+    background: var(--dark-blue2);
+}
+
+footer.dark {
+    color: var(--baby-blue);
 }
 
 /* links, buttons and inputs ========================== */
@@ -174,16 +192,6 @@ main.container {
     transform: translateX(28px);
 }
 
-/* dark mode ========================== */
-
-.dark-body {
-    background: rgb(51, 50, 50);
-}
-
-.dark-header {
-    background: rgb(37, 37, 37);
-}
-
 /* actions list ========================== */
 section.actions {
     height: 200px;
@@ -233,6 +241,7 @@ img {
 
 /* footer ========================== */
 footer {
+    width: 100%;
     color: var(--dark-blue);
     font-size: 0.6rem;
     font-weight: 100;
@@ -240,6 +249,7 @@ footer {
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: all 0.5s ease;
 }
 
 /* responsive ========================== */

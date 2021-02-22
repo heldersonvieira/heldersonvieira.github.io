@@ -10,6 +10,7 @@ const List = {
 
     add() {
         if (!Listener.createdList) {
+            // document.querySelector('input#list-description').autofocus = false;
             if (List.description.value.length <= 0) {
                 alert('Digite a dscrição corretamente')
                 return;
@@ -17,11 +18,10 @@ const List = {
     
             const section = document.createElement('section');
             section.classList.add('tasks');
-             
             section.innerHTML = List.innerHTMLList(List.get().description); 
-            
             List.container.appendChild(section);
             
+            document.querySelector('input#task-description').focus();
             List.description.value = '';
             Listener.init();    // para escutar o input seguinte, com a descrição da tarefa
             Listener.changeTheme();
@@ -38,7 +38,7 @@ const List = {
             </h2>
             <div class="task-description">
                 <label class="sr-only" for="task-description">Descrição da tarefa</label>
-                <input type="text" id="task-description" class="default-input" name="task-description" placeholder="Descrição da tarefa" autofocus>
+                <input type="text" id="task-description" class="default-input" name="task-description" placeholder="Descrição da tarefa">
                 <span>
                     <img onclick="Tasks.add()" src="./assets/plus.svg" alt="Adicionar tarefa" class="add-task button">
                 </span>
@@ -186,9 +186,11 @@ const Listener = {
             if (darkSwitch.checked) {
                 document.querySelector('body').classList.add('dark-body');
                 document.querySelector('header').classList.add('dark-header');
+                document.querySelector('footer').classList.add('dark');
             } else {
                 document.querySelector('body').classList.remove('dark-body');
                 document.querySelector('header').classList.remove('dark-header');
+                document.querySelector('footer').classList.remove('dark');
             }
         })
     }
